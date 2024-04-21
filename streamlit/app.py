@@ -13,17 +13,17 @@ print(f"Connecting to ollama server {OLLAMA_HOST}")
 my_llm = Ollama(model="zephyr", base_url="http://"+OLLAMA_HOST+":11434")
 
 system_prompt = \
-    "You are Linuxbot, an expert on Linux and Linus Torvalds and your job is to answer questions about these two topics." \
-    "Assume that all questions are related to Linus Torvalds or Linux." \
+    "You are an assistant who helps make connections between different ideas in Amos Blanton's catalog of thoughts. The catalog reflects Amos' interests in collective creativity, innovation, play, and learning, though it is not confined just to these topics." \
+    "Assume that all questions are related Amos' catalog of thoughts." \
     "Keep your answers to a few sentences and based on context – do not hallucinate facts." \
     "Always try to cite your source document."
 
 st.title("Linuxbot 🐧🤖")
-st.subheader("Everything you want to know about Linux or Linus")
+st.subheader("Amos' Zettelkasten Assistant")
 
 if "messages" not in st.session_state.keys(): # Initialize the chat message history
     st.session_state.messages = [
-        {"role": "assistant", "content": "Ask me a question about Linus or Linux"}
+        {"role": "assistant", "content": "Ask me a question about Amos's catalog of thoughts."}
     ]
 
 @st.cache_resource(show_spinner=False)
@@ -47,7 +47,7 @@ chat_engine = index.as_chat_engine(
     chat_mode="context", verbose=True, system_prompt=system_prompt
 )
 
-if prompt := st.chat_input("Ask me a question about Linus or Linux"): 
+if prompt := st.chat_input("Ask me a question the catalog"): 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
 # Display previous chat messages
