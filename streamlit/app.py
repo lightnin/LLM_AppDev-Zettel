@@ -18,8 +18,8 @@ system_prompt = \
     "Keep your answers to a few sentences and based on context – do not hallucinate facts." \
     "Always try to cite your source document."
 
-st.title("Linuxbot 🐧🤖")
-st.subheader("Amos' Zettelkasten Assistant")
+st.title("Amos' Zetel Assistant")
+st.subheader("Running Zephyr")
 
 if "messages" not in st.session_state.keys(): # Initialize the chat message history
     st.session_state.messages = [
@@ -29,7 +29,7 @@ if "messages" not in st.session_state.keys(): # Initialize the chat message hist
 @st.cache_resource(show_spinner=False)
 def load_data(_llm):
     with st.spinner(text="Loading and indexing the document data – might take 1-2 minutes."):
-        reader = SimpleDirectoryReader(input_dir="./docs", recursive=True)
+        reader = SimpleDirectoryReader(input_dir="/Users/au658629/Documents/TheArchiveNotes", recursive=True)
         docs = reader.load_data()
         
         # ServiceContext is deprected ...
@@ -47,7 +47,7 @@ chat_engine = index.as_chat_engine(
     chat_mode="context", verbose=True, system_prompt=system_prompt
 )
 
-if prompt := st.chat_input("Ask me a question the catalog"): 
+if prompt := st.chat_input("Ask me a question about the catalog"): 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
 # Display previous chat messages
