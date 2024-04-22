@@ -19,7 +19,7 @@ system_prompt = \
     "Always try to cite the title of the card the ideas referenced in your answer came from. Consider the filename of the source document to be the title of the card."
 
 st.title("Amos' Zetel Assistant")
-st.subheader("Running Zephyr")
+st.subheader("Running...")
 
 if "messages" not in st.session_state.keys(): # Initialize the chat message history
     st.session_state.messages = [
