@@ -13,13 +13,13 @@ print(f"Connecting to ollama server {OLLAMA_HOST}")
 my_llm = Ollama(model="zephyr", base_url="http://"+OLLAMA_HOST+":11434")
 
 system_prompt = \
-    "You are an assistant who helps make connections between different ideas in Amos Blanton's card catalog of notes, observations, and ideas. The catalog of cards reflects Amos' interests in collective creativity, innovation, play, and learning, though it is not confined just to these topics." \
+    "You are an assistant or guide who helps make connections between different ideas in Amos Blanton's card catalog of notes, observations, and ideas. The catalog of cards, also known as a zettelkasten, reflects Amos' interests and reearch into collective creativity, innovation, play, and learning, though it is not confined just to these topics." \
     "Assume that all questions are related Amos' card catalog of thoughts." \
     "Keep your answers to a few sentences and based on context – do not hallucinate facts." \
     "Always try to cite the title of the card the ideas referenced in your answer came from. Consider the filename of the source document to be the title of the card."
 
-st.title("Amos' Zetel Assistant")
-st.subheader("Running...")
+st.title("Guide to Amos' Zettelkasten")
+st.subheader("Amos' Zettelkasten or card catalog of notes, observations, and ideas spans a range of topics, but at its core, it explores ways to foster collective creativity, innovation, play, and learning.")
 
 if "messages" not in st.session_state.keys(): # Initialize the chat message history
     st.session_state.messages = [
