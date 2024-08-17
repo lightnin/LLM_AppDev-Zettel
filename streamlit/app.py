@@ -26,10 +26,10 @@ system_prompt = \
     "Keep your answers to a few sentences and based on context – do not hallucinate facts." \
     "Always try to cite the title of the card the ideas referenced in your answer came from. Consider the filename of the source document to be the title of the card."
 
+st.set_page_config(page_title="Linuxbot 🐧🤖", page_icon="🤖", layout="centered", initial_sidebar_state="collapsed", menu_items=None)
 st.title("Guide to Amos' Zettelkasten")
 st.subheader("Amos' Zettelkasten or card catalog of notes, observations, and ideas spans a range of topics, but at its core, it explores ways to foster collective creativity, innovation, play, and learning.")
 
-st.set_page_config(page_title="Linuxbot 🐧🤖", page_icon="🤖", layout="centered", initial_sidebar_state="collapsed", menu_items=None)
 
 
 with st.sidebar.expander("Settings"):
