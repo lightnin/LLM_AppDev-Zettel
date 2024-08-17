@@ -4,13 +4,21 @@ import streamlit as st
 
 from llama_index.core import ServiceContext, Document, SimpleDirectoryReader, VectorStoreIndex, Settings
 from llama_index.llms.ollama import Ollama
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.ollama import OllamaEmbedding
+
 
 OLLAMA_HOST = os.getenv('OLLAMA_HOST', 'localhost')
 print(f"Connecting to ollama server {OLLAMA_HOST}")
 
-# connect to ollama service running on OpenShift
-my_llm = Ollama(model="zephyr", base_url="http://"+OLLAMA_HOST+":11434")
+# Connect to ollama service running on OpenShift
+my_llm = "mistral:7b-instruct-v0.3-q8_0"
+
+ollama_llm = Ollama(model=my_llm, base_url="http://"+OLLAMA_HOST+":11434")
+ollama_embedding = OllamaEmbedding(
+    model_name="mxbai-embed-large",
+    base_url="http://localhost:11434",
+    ollama_additional_kwargs={"mirostat": 0},
+)
 
 system_prompt = \
     "You are an assistant or guide who helps make connections between different ideas in Amos Blanton's card catalog of notes, observations, and ideas. The catalog of cards, also known as a zettelkasten, reflects Amos' interests and reearch into collective creativity, innovation, play, and learning, though it is not confined just to these topics." \
@@ -20,6 +28,13 @@ system_prompt = \
 
 st.title("Guide to Amos' Zettelkasten")
 st.subheader("Amos' Zettelkasten or card catalog of notes, observations, and ideas spans a range of topics, but at its core, it explores ways to foster collective creativity, innovation, play, and learning.")
+
+st.set_page_config(page_title="Linuxbot 🐧🤖", page_icon="🤖", layout="centered", initial_sidebar_state="collapsed", menu_items=None)
+
+
+with st.sidebar.expander("Settings"):
+    system_prompt = st.text_area('System Prompt', value=system_prompt, height=256)
+    #my_llm = st.text_area('Model', value=my_llm)
 
 if "messages" not in st.session_state.keys(): # Initialize the chat message history
     st.session_state.messages = [
@@ -32,16 +47,14 @@ def load_data(_llm):
         reader = SimpleDirectoryReader(input_dir="/Users/au658629/Documents/TheArchiveNotes", recursive=True)
         docs = reader.load_data()
         
-        # ServiceContext is deprected ...
-        # Also see https://docs.llamaindex.ai/en/stable/examples/embeddings/huggingface.html
-        Settings.llm = my_llm
-        Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+        Settings.llm = ollama_llm
+        Settings.embed_model = ollama_embedding
         index = VectorStoreIndex.from_documents(docs)
 
         return index
 
 
-index = load_data(my_llm)
+index = load_data(ollama_llm)
 
 chat_engine = index.as_chat_engine(
     chat_mode="context", verbose=True, system_prompt=system_prompt
