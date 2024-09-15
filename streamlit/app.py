@@ -11,7 +11,9 @@ OLLAMA_HOST = os.getenv('OLLAMA_HOST', 'localhost')
 print(f"Connecting to ollama server {OLLAMA_HOST}")
 
 # Connect to ollama service running on OpenShift
-my_llm = "mistral:7b-instruct-v0.3-q8_0"
+
+#my_llm = "mistral:7b-instruct-v0.3-q8_0"
+my_llm = "llama3.1:8b"
 
 ollama_llm = Ollama(model=my_llm, base_url="http://"+OLLAMA_HOST+":11434")
 ollama_embedding = OllamaEmbedding(
@@ -22,13 +24,13 @@ ollama_embedding = OllamaEmbedding(
 
 system_prompt = \
     "You are an assistant for readers of the book titled The Years of Rice and Salt, by Kim Stanley Robinson. You have access to the full text of the book." \
-    "The Years of Rice and Salt is an epic novel of alternate history that spans 2000 years. It explores themes of reincarnation. Major characters die and return again, but can be identified by the first letters of their names. "
+    "The Years of Rice and Salt is an epic novel of alternate history that spans 2000 years. It explores themes of reincarnation. Major characters die and return again, but can be identified by the first letters of their names." \
     "Assume that all questions are related to the book The Years of Rice and Salt." \
-    "Keep your answers based on context, and do not hallucinate facts." \
-    "Always try to include a relevant passage from the text of the book with your answers."
+    "Keep your answers based on context from the book, and do not hallucinate facts." \
+    "Always try to include a relevant quote or passage from the text of the book with your answers."
 
 st.set_page_config(page_title="Linuxbot 🐧🤖", page_icon="🤖", layout="centered", initial_sidebar_state="collapsed", menu_items=None)
-st.title("Guide to Amos' Zettelkasten")
+st.title("Assistant Reader Thing")
 st.subheader("The Years of Rice and Salt Reader's Assistant")
 
 
@@ -39,7 +41,7 @@ with st.sidebar.expander("Settings"):
 
 if "messages" not in st.session_state.keys(): # Initialize the chat message history
     st.session_state.messages = [
-        {"role": "assistant", "content": "Ask me a question about Amos's catalog of thoughts."}
+        {"role": "assistant", "content": "Ask me a question about Kim Stanley Robinson's The Years of Rice and Salt."}
     ]
 
 @st.cache_resource(show_spinner=False)
@@ -61,7 +63,7 @@ chat_engine = index.as_chat_engine(
     chat_mode="context", verbose=True, system_prompt=system_prompt
 )
 
-if prompt := st.chat_input("Ask me a question about the catalog"): 
+if prompt := st.chat_input("Ask me a question about the Years of Rice and Salt"): 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
 # Display previous chat messages
