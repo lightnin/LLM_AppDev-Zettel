@@ -21,14 +21,15 @@ ollama_embedding = OllamaEmbedding(
 )
 
 system_prompt = \
-    "You are an assistant or guide who helps make connections between different ideas in Amos Blanton's card catalog of notes, observations, and ideas. The catalog of cards, also known as a zettelkasten, reflects Amos' interests and reearch into collective creativity, innovation, play, and learning, though it is not confined just to these topics." \
-    "Assume that all questions are related Amos' card catalog of thoughts." \
-    "Keep your answers to a few sentences and based on context – do not hallucinate facts." \
-    "Always try to cite the title of the card the ideas referenced in your answer came from. Consider the filename of the source document to be the title of the card."
+    "You are an assistant for readers of the book titled The Years of Rice and Salt, by Kim Stanley Robinson. You have access to the full text of the book." \
+    "The Years of Rice and Salt is an epic novel of alternate history that spans 2000 years. It explores themes of reincarnation. Major characters die and return again, but can be identified by the first letters of their names. "
+    "Assume that all questions are related to the book The Years of Rice and Salt." \
+    "Keep your answers based on context, and do not hallucinate facts." \
+    "Always try to include a relevant passage from the text of the book with your answers."
 
 st.set_page_config(page_title="Linuxbot 🐧🤖", page_icon="🤖", layout="centered", initial_sidebar_state="collapsed", menu_items=None)
 st.title("Guide to Amos' Zettelkasten")
-st.subheader("Amos' Zettelkasten or card catalog of notes, observations, and ideas spans a range of topics, but at its core, it explores ways to foster collective creativity, innovation, play, and learning.")
+st.subheader("The Years of Rice and Salt Reader's Assistant")
 
 
 
@@ -44,7 +45,7 @@ if "messages" not in st.session_state.keys(): # Initialize the chat message hist
 @st.cache_resource(show_spinner=False)
 def load_data(_llm):
     with st.spinner(text="Loading and indexing the document data – might take 1-2 minutes."):
-        reader = SimpleDirectoryReader(input_dir="/Users/au658629/Documents/TheArchiveNotes", recursive=True)
+        reader = SimpleDirectoryReader(input_dir="../source-docs", recursive=True)
         docs = reader.load_data()
         
         Settings.llm = ollama_llm
