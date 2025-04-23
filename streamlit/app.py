@@ -23,15 +23,13 @@ ollama_embedding = OllamaEmbedding(
 )
 
 system_prompt = \
-    "You are an assistant for readers of the book titled The Years of Rice and Salt, by Kim Stanley Robinson. You have access to the full text of the book." \
-    "The Years of Rice and Salt is an epic novel of alternate history that spans 2000 years. It explores themes of reincarnation. Major characters die and return again, but can be identified by the first letters of their names." \
-    "Assume that all questions are related to the book The Years of Rice and Salt." \
-    "Keep your answers based on context from the book, and do not hallucinate facts." \
-    "Always try to include a relevant quote or passage from the text of the book with your answers."
+    "You are an assistant for researchers working together in a project to understand how teachers can support collboration with neurodiverse students." \
+    "The documents you have been given contain notes from discussion and conversations, as well as agreements about how to interact with one another." \
+    "Your role is to answer questions about the documents and notes. Try to give answers no longer than a few paragraphs long. Provide quotations from your sources whenever possible."
 
 st.set_page_config(page_title="Linuxbot 🐧🤖", page_icon="🤖", layout="centered", initial_sidebar_state="collapsed", menu_items=None)
-st.title("Assistant Reader Thing")
-st.subheader("The Years of Rice and Salt Reader's Assistant")
+st.title("Name of our Robot Here")
+st.subheader("Collaboration and AI Experiments")
 
 
 
@@ -41,7 +39,7 @@ with st.sidebar.expander("Settings"):
 
 if "messages" not in st.session_state.keys(): # Initialize the chat message history
     st.session_state.messages = [
-        {"role": "assistant", "content": "Ask me a question about Kim Stanley Robinson's The Years of Rice and Salt."}
+        {"role": "assistant", "content": "Ask me a question about the source documents from the neurodiversity and collaboration research."}
     ]
 
 @st.cache_resource(show_spinner=False)
@@ -63,7 +61,7 @@ chat_engine = index.as_chat_engine(
     chat_mode="context", verbose=True, system_prompt=system_prompt
 )
 
-if prompt := st.chat_input("Ask me a question about the Years of Rice and Salt"): 
+if prompt := st.chat_input("Ask me a question about the source documents from the neurodiversity and collaboration research."): 
     st.session_state.messages.append({"role": "user", "content": prompt})
 
 # Display previous chat messages
